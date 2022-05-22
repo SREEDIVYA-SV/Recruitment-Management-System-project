@@ -1,0 +1,45 @@
+\sql
+\connect root@localhost
+dhanya2001
+
+procedure:1
+DELIMITER $$
+
+CREATE PROCEDURE whereemail(IN email VARCHAR(255))
+begin
+select CName,CLocation,CGender,CID from mydb.client where CEmail=email;
+end$$
+
+DELIMITER ;
+
+procedure:2
+DELIMITER $$
+
+CREATE PROCEDURE typeemail(IN email1 VARCHAR(255))
+begin
+select type from users where email=email1;
+end$$
+
+DELIMITER ;
+
+trigger 1:
+DELIMITER $$
+
+CREATE TRIGGER backup_job
+before delete on job
+for each row 
+begin
+insert into jobback values(old.RID,old.JobRole,old.JobType);
+end;$$
+
+trigger 2:
+DELIMITER $$
+
+CREATE TRIGGER backup_application
+before delete on application
+for each row 
+begin
+insert into applicationbackup values(old.AID,old.JID);
+end;$$
+
+DELIMITER;
